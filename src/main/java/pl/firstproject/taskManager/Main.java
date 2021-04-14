@@ -2,7 +2,9 @@ package pl.firstproject.taskManager;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -42,9 +44,18 @@ public class Main {
 
     private static void remove() {
         System.out.println("Please select namber to remove:");
-        Scanner scanner = new Scanner(System.in);
+        try {
+            Scanner scanner = new Scanner(System.in);
+
         int index = scanner.nextInt();
-        tasksArr = ArrayUtils.remove(tasksArr, index);
+        tasksArr = ArrayUtils.remove(tasksArr, index);}
+        catch (IndexOutOfBoundsException exception){
+            System.out.println("Incorrect argument passed. Please give number greater or equal 0");
+            remove();
+        }catch (InputMismatchException exception){
+            System.out.println("Incorrect argument passed. Please give number greater or equal 0");
+            remove();
+        }
         System.out.println("Value is successfully deleted.");
 
     }
