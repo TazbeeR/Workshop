@@ -4,9 +4,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
+    static final String fileName = "tasks.csv";
+    static String[][] tasksArr;
+
     public static void main(String[] args) {
 
-        String[][] tasksArr = new String[1][3];
+        loadFile();
         showMenu();
         Scanner scanner = new Scanner(System.in);
 
@@ -14,19 +18,16 @@ public class Main {
             String input = scanner.nextLine();
             switch (input){
                 case "add" :
-                    addTask(tasksArr);
-                    System.out.println("tu dodasz");
+                    addTask();
                     break;
                 case "remove" :
-
-                    System.out.println("tu usuniesz");
-                    break;
+                    remove();
+                   break;
                 case "list" :
-                    listTask(tasksArr);
-                    System.out.println("tu wypiszesz");
-                    break;
+                    listTask();
+                   break;
                 case "quit" :
-
+                    saveFile();
                     System.out.println(ConsoleColors.RED + "Bye, Bye." + ConsoleColors.RESET);
                     System.exit(0);
                 default:
@@ -37,16 +38,27 @@ public class Main {
 
     }
 
-    private static void listTask(String[][] taskArr) {
-        for (int i = 0; i < taskArr.length -1; i++) {
-            for (int j = 0; j < taskArr.length +2; j++) {
-                System.out.println(taskArr[i][j]);
+    private static void remove() {
+    }
+
+    private static void saveFile() {
+    }
+
+    private static void loadFile() {
+    }
+
+    private static void listTask() {
+        for (int i = 0; i < tasksArr.length; i++) {
+            System.out.print(i + " : ");
+            for (int j = 0; j < tasksArr[i].length; j++) {
+                System.out.print(ConsoleColors.GREEN_BOLD+tasksArr[i][j]+ConsoleColors.RESET + " ");
+                if (j==2) System.out.println();
             }
 
         }
     }
 
-    private static String[][] addTask(String[][] tasksArr) {
+    private static String[][] addTask() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please add task description");
             String taskName = scanner.nextLine();
