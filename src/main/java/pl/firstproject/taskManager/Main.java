@@ -1,12 +1,14 @@
 package pl.firstproject.taskManager;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
     static final String fileName = "tasks.csv";
-    static String[][] tasksArr;
+    static String[][] tasksArr = new String[0][0];
 
     public static void main(String[] args) {
 
@@ -39,6 +41,12 @@ public class Main {
     }
 
     private static void remove() {
+        System.out.println("Please select namber to remove:");
+        Scanner scanner = new Scanner(System.in);
+        int index = scanner.nextInt();
+        tasksArr = ArrayUtils.remove(tasksArr, index);
+        System.out.println("Value is successfully deleted.");
+
     }
 
     private static void saveFile() {
