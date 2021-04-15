@@ -3,9 +3,7 @@ package pl.firstproject.taskManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +11,7 @@ import java.util.*;
 
 public class Main {
 
-    static final String fileName = "tasks.csv";
+    static final String fileName = "src/main/java/pl/firstproject/taskManager/tasks.csv";
     static String[][] tasksArr = new String[0][0];
 
     public static void main(String[] args) {
@@ -36,7 +34,7 @@ public class Main {
                     try{
                         saveFile();
                     }catch (IOException exception){
-                        System.out.println("plik brak stworzono");
+                        exception.printStackTrace();
                     }
                     System.out.println(ConsoleColors.RED + "Bye, Bye." + ConsoleColors.RESET);
                     System.exit(0);
@@ -50,7 +48,7 @@ public class Main {
     }
 
     private static void remove() {
-        System.out.println("Please select namber to remove:");
+        System.out.println("Please select number to remove:");
             try {
                 Scanner scanner = new Scanner(System.in);
             int index = scanner.nextInt();
