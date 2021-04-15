@@ -3,6 +3,9 @@ package pl.firstproject.taskManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,12 +13,16 @@ import java.util.*;
 
 public class Main {
 
-    static final String fileName = "src/main/java/pl/firstproject/taskManager/tasks.csv";
+    static final String fileName = "tasks.csv";
     static String[][] tasksArr = new String[0][0];
 
     public static void main(String[] args) {
 
-        loadFile();
+        try {
+            loadFile();
+        } catch (IOException exception) {
+            System.out.println("File not found");
+        }
         showMenu();
         Scanner scanner = new Scanner(System.in);
 
@@ -38,12 +45,13 @@ public class Main {
             }
             showMenu();
         }
+        scanner.close();
 
     }
 
     private static void remove() {
         System.out.println("Please select namber to remove:");
-            try {//przeniesc scanner
+            try {
                 Scanner scanner = new Scanner(System.in);
             int index = scanner.nextInt();
             tasksArr = ArrayUtils.remove(tasksArr, index);
@@ -57,31 +65,36 @@ public class Main {
     }
 
     private static void saveFile() throws IOException {
-//            Path path = Paths.get(fileName);
-//            boolean exists = Files.exists(path);
-//            List<String> outList = new ArrayList<>();
-//            if (!exists) {
-//                Files.createFile(path);
-//            } else {
-//                outList.add("<html>\n" + "<body>");
-//                while (true) {
-//                    Scanner scanner = new Scanner(System.in);
-//                    System.out.println("podaj tekst");
-//                    String input = scanner.nextLine();
-//                    if (input.equals("quit")) {
-//                        break;
-//                    }
-//                    outList.add("<p>" + input+"</p>");
-//                }
-//                outList.add("</body>\n" + "</html>");
-//                Files.write(path, outList);
-//
-//        }
-    }
+        Path path = Paths.get(fileName);
+        boolean exists = Files.exists(path);
+        if (!exists)
+            Files.createFile(path);
+        else {PrintWriter printWriter = new PrintWriter(fileName);
+            for (int i = 0; i < tasksArr.length; i++) {
+                String toSave = String.join(",", tasksArr[i]);
+                printWriter.println(toSave);
+                }
+            printWriter.close();
+            }
+        }
 
-    private static void loadFile() {
+    private static void loadFile() throws IOException {
+        Path path1 = Paths.get(fileName);
+        boolean exists1 = Files.exists(path1);
+        if (!exists1) {
+            System.out.println("File not found");
+            System.exit(0);
+        } else {
+            Scanner scanner = new Scanner(path1);
+                while (scanner.hasNext()) {
+                String input = scanner.nextLine();
+                tasksArr = Arrays.copyOf(tasksArr, tasksArr.length + 1);
+                tasksArr[tasksArr.length -1] = new String[3];
+                tasksArr[tasksArr.length -1] = input.split(",");
+            }
+            scanner.close();
+        }
     }
-
     private static void listTask() {
         for (int i = 0; i < tasksArr.length; i++) {
             System.out.print(i + " : ");
